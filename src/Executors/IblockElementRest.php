@@ -586,13 +586,15 @@ class IblockElementRest implements IExecutor {
 
 		$this->registerOneItemTransformHandler();
 
-		// Compose cache key from filter values
-		$cacheKey = [ 'call' => 'count', 'filter' => $this->filter, ];
+		$filter = array_merge( $this->filter, [ '>PRICE' => 0, ] );
 
-		$countFound = $this->tryCacheThenCall( $cacheKey, function(){
+		// Compose cache key from filter values
+		$cacheKey = [ 'call' => 'count', 'filter' => $filter, ];
+
+		$countFound = $this->tryCacheThenCall( $cacheKey, function() use( $filter ) {
 			$query = CIBlockElement::GetList(
 				$this->order,
-				$this->filter,
+				$filter,
 				false,
 				$this->navParams,
 				$this->select
