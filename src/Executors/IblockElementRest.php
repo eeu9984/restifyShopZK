@@ -383,6 +383,9 @@ class IblockElementRest implements IExecutor {
 
 	public function readMany() {
 
+		$filter = array_merge( $this->filter, [ '>PRICE' => 0, ] );
+		$this->filter = $filter;
+
 		// Find in cache first
 		$cacheKey = [ 'call'	=> 'readMany',		'order' 	=> $this->order,
 					'filter'	=> $this->filter,	'navParams' => $this->navParams,
